@@ -19,6 +19,8 @@ struct ContentView: View {
     @State private var showInstructions = false
     @State private var goToSettings = false
     
+    @State private var playGame = false
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -104,7 +106,7 @@ struct ContentView: View {
                         VStack {
                             if animateViewsIn {
                                 Button {
-                                    //Start new game
+                                    playGame.toggle()
                                 } label: {
                                     Text("Play")
                                         .font(.largeTitle)
@@ -121,6 +123,9 @@ struct ContentView: View {
                                         scalePlayButton.toggle()
                                     }
                                 }
+                                .fullScreenCover(isPresented: $playGame, content: {
+                                    Gameplay()
+                                })
                                 .transition(.offset(y: geo.size.height/3))
                                 //here y=0 on the button itself
                             }
