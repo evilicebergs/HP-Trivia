@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Instructions: View {
-    @Environment(\.dismiss) var dissmiss
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -45,7 +45,7 @@ struct Instructions: View {
                 .foregroundStyle(.black)
                 
                 Button("Done") {
-                    dissmiss()
+                    dismiss()
                 }
                 .doneButton()
                 
