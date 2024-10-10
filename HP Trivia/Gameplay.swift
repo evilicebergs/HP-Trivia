@@ -11,6 +11,8 @@ struct Gameplay: View {
     
     @State private var animateViewsIn = false
     @State private var tappedCorrectAnswer = false
+    @State private var animateHint1 = false
+    @State private var animateHint2 = false
     
     var body: some View {
         GeometryReader { geo in
@@ -59,10 +61,16 @@ struct Gameplay: View {
                                     .scaledToFit()
                                     .frame(width: 100)
                                     .foregroundStyle(.cyan)
-                                    .rotationEffect(.degrees(-15))
+                                    .rotationEffect(.degrees(-10))
                                     .padding()
                                     .padding(.leading, 20)
+                                    .rotationEffect(.degrees(animateHint1 ? -10 : 5))
                                     .transition(.offset(x: -geo.size.width/2))
+                                    .onAppear {
+                                        withAnimation(.easeInOut(duration: 0.6).repeatForever()) {
+                                            animateHint1.toggle()
+                                        }
+                                    }
                             }
                         }
                         .animation(.easeOut(duration: 1.3).delay(2), value: animateViewsIn)
@@ -78,11 +86,18 @@ struct Gameplay: View {
                                     .frame(width: 100, height: 100)
                                     .background(.cyan)
                                     .clipShape(.rect(cornerRadius: 20))
-                                    .rotationEffect(.degrees(15))
+                                    .rotationEffect(.degrees(10))
                                     .padding()
                                     .padding(.trailing, 20)
+                                    .rotationEffect(.degrees(animateHint2 ? 10 : -5))
                                     .transition(.offset(x: geo.size.width/2))
+                                    .onAppear {
+                                        withAnimation(.easeInOut(duration: 0.6).repeatForever()) {
+                                            animateHint2.toggle()
+                                        }
+                                    }
                             }
+                                
                         }
                         .animation(.easeOut(duration: 1.3).delay(2), value: animateViewsIn)
                     }
@@ -171,8 +186,8 @@ struct Gameplay: View {
         }
         .ignoresSafeArea()
         .onAppear {
-            //animateViewsIn = true
-            tappedCorrectAnswer = true
+            animateViewsIn = true
+            //tappedCorrectAnswer = true
         }
     }
 }
