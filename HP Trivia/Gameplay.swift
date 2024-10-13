@@ -11,8 +11,9 @@ struct Gameplay: View {
     
     @State private var animateViewsIn = false
     @State private var tappedCorrectAnswer = false
-    @State private var animateHint1 = false
-    @State private var animateHint2 = false
+    @State private var animateWiggle = false
+    @State private var scaleNexButton = false
+    @State private var movePointsToScore = false
     
     var body: some View {
         GeometryReader { geo in
@@ -61,14 +62,15 @@ struct Gameplay: View {
                                     .scaledToFit()
                                     .frame(width: 100)
                                     .foregroundStyle(.cyan)
-                                    .rotationEffect(.degrees(-10))
+                                    .rotationEffect(.degrees(animateWiggle ? -13 : -17))
                                     .padding()
                                     .padding(.leading, 20)
-                                    .rotationEffect(.degrees(animateHint1 ? -10 : 5))
                                     .transition(.offset(x: -geo.size.width/2))
                                     .onAppear {
-                                        withAnimation(.easeInOut(duration: 0.6).repeatForever()) {
-                                            animateHint1.toggle()
+                                        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+                                            withAnimation(.easeInOut(duration: 0.15).repeatCount(5).delay(5)) {
+                                                animateWiggle.toggle()
+                                            }
                                         }
                                     }
                             }
@@ -86,18 +88,18 @@ struct Gameplay: View {
                                     .frame(width: 100, height: 100)
                                     .background(.cyan)
                                     .clipShape(.rect(cornerRadius: 20))
-                                    .rotationEffect(.degrees(10))
+                                    .rotationEffect(.degrees(animateWiggle ? 13 : 17))
                                     .padding()
                                     .padding(.trailing, 20)
-                                    .rotationEffect(.degrees(animateHint2 ? 10 : -5))
                                     .transition(.offset(x: geo.size.width/2))
-                                    .onAppear {
-                                        withAnimation(.easeInOut(duration: 0.6).repeatForever()) {
-                                            animateHint2.toggle()
-                                        }
-                                    }
+//                                    .onAppear {
+//                                        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+//                                            withAnimation(.easeInOut(duration: 0.2).repeatCount(5).delay(5)) {
+//                                                animateWiggle.toggle()
+//                                            }
+//                                        }
+//                                    }
                             }
-                                
                         }
                         .animation(.easeOut(duration: 1.3).delay(2), value: animateViewsIn)
                     }
@@ -135,6 +137,13 @@ struct Gameplay: View {
                                 .font(.largeTitle)
                                 .padding(.top, 50)
                                 .transition(.offset(y: -geo.size.height/4))
+                                .offset(x: movePointsToScore ? geo.size.width/2.3 : 0, y: movePointsToScore ? -geo.size.height/13 : 0)
+                                .opacity(movePointsToScore ? 0 : 1)
+                                .onAppear {
+                                    withAnimation(.easeInOut(duration: 1).delay(3)) {
+                                        movePointsToScore = true
+                                    }
+                                }
                         }
                     }
                     .animation(.easeInOut(duration: 1).delay(2), value: tappedCorrectAnswer)
@@ -151,16 +160,16 @@ struct Gameplay: View {
                     .animation(.easeInOut(duration: 1).delay(1), value: tappedCorrectAnswer)
                     
                     Spacer()
-                    
-                    Text("Answer 1")
-                        .minimumScaleFactor(0.5)
-                        .multilineTextAlignment(.center)
-                        .padding(10)
-                        .frame(width: geo.size.width/2.15, height: 80)
-                        .background(.green.opacity(0.5))
-                        .clipShape(.rect(cornerRadius: 25))
-                        .scaleEffect(2)
-                    
+                    if tappedCorrectAnswer {
+                        Text("Answer 1")
+                            .minimumScaleFactor(0.5)
+                            .multilineTextAlignment(.center)
+                            .padding(10)
+                            .frame(width: geo.size.width/2.15, height: 80)
+                            .background(.green.opacity(0.5))
+                            .clipShape(.rect(cornerRadius: 25))
+                            .scaleEffect(2)
+                    }
                     
                     Spacer()
                     Spacer()
@@ -173,6 +182,12 @@ struct Gameplay: View {
                             .tint(.blue.opacity(0.5))
                             .font(.largeTitle)
                             .transition(.offset(y: geo.size.height/3))
+                            .scaleEffect(scaleNexButton ? 1.2 : 1)
+                            .onAppear {
+                                withAnimation(.easeInOut(duration: 1.3).repeatForever()) {
+                                    scaleNexButton.toggle()
+                                }
+                            }
                         }
                     }
                     .animation(.easeInOut(duration: 2.7).delay(2.7), value: tappedCorrectAnswer)
@@ -187,7 +202,7 @@ struct Gameplay: View {
         .ignoresSafeArea()
         .onAppear {
             animateViewsIn = true
-            //tappedCorrectAnswer = true
+//            tappedCorrectAnswer = true
         }
     }
 }
