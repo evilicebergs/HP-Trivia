@@ -9,11 +9,14 @@ import SwiftUI
 
 struct Gameplay: View {
     
+    @Environment(\.dismiss) private var dismiss
     @State private var animateViewsIn = false
     @State private var tappedCorrectAnswer = false
     @State private var animateWiggle = false
     @State private var scaleNexButton = false
     @State private var movePointsToScore = false
+    @State private var revealHint = false
+    @State private var revealBook = false
     
     var body: some View {
         GeometryReader { geo in
@@ -27,7 +30,7 @@ struct Gameplay: View {
                     //MARK: - Controls
                     HStack {
                         Button("End Game") {
-                            // TODO: END GAME
+                            dismiss()
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.red.opacity(0.5))
@@ -67,12 +70,27 @@ struct Gameplay: View {
                                     .padding(.leading, 20)
                                     .transition(.offset(x: -geo.size.width/2))
                                     .onAppear {
-                                        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 7, repeats: true) { _ in
                                             withAnimation(.easeInOut(duration: 0.15).repeatCount(5).delay(5)) {
                                                 animateWiggle.toggle()
                                             }
                                         }
                                     }
+                                    .onTapGesture {
+                                        withAnimation(.easeOut(duration: 1)) {
+                                            revealHint = true
+                                        }
+                                    }
+                                    .rotation3DEffect(.degrees(revealHint ? 1440 : 0), axis: (x: 0, y: 1, z: 0))
+                                    .scaleEffect(revealHint ? 5 : 1)
+                                    .opacity(revealHint ? 0 : 1)
+                                    .offset(x: revealHint ? geo.size.width/2 : 0)
+                                    .overlay(Text("The boy who _____")
+                                        .padding(.leading, 33)
+                                        .minimumScaleFactor(0.5)
+                                        .multilineTextAlignment(.center)
+                                        .opacity(revealHint ? 1 : 0)
+                                        .scaleEffect(revealHint ? 1.33 : 0))
                             }
                         }
                         .animation(.easeOut(duration: 1.3).delay(2), value: animateViewsIn)
@@ -92,13 +110,21 @@ struct Gameplay: View {
                                     .padding()
                                     .padding(.trailing, 20)
                                     .transition(.offset(x: geo.size.width/2))
-//                                    .onAppear {
-//                                        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
-//                                            withAnimation(.easeInOut(duration: 0.2).repeatCount(5).delay(5)) {
-//                                                animateWiggle.toggle()
-//                                            }
-//                                        }
-//                                    }
+                                    .onTapGesture {
+                                        withAnimation(.easeOut(duration: 1)) {
+                                            revealBook = true
+                                        }
+                                    }
+                                    .rotation3DEffect(.degrees(revealBook ? 1440 : 0), axis: (x: 0, y: 1, z: 0))
+                                    .scaleEffect(revealBook ? 5 : 1)
+                                    .opacity(revealBook ? 0 : 1)
+                                    .offset(x: revealBook ? -geo.size.width/2 : 0)
+                                    .overlay(Image("hp1")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .padding(.trailing, 33)
+                                        .opacity(revealBook ? 1 : 0)
+                                        .scaleEffect(revealBook ? 1.2 : 1))
                             }
                         }
                         .animation(.easeOut(duration: 1.3).delay(2), value: animateViewsIn)
