@@ -9,7 +9,7 @@
       }
     ]
   },
-  "identifier" : "0A59695F",
+  "identifier" : "5C089218",
   "nonRenewingSubscriptions" : [
 
   ],
@@ -17,46 +17,61 @@
     {
       "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "1F8A6A34",
+      "internalID" : "C908BA11",
       "localizations" : [
         {
-          "description" : "Unlock trivia questions for HP5",
-          "displayName" : "HP5 Questions",
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "hp4",
+      "referenceName" : "HP4 Questions",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "B0C389D4",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
           "locale" : "en_US"
         }
       ],
       "productID" : "hp5",
-      "referenceName" : "HP5",
+      "referenceName" : "HP5 Questions",
       "type" : "NonConsumable"
     },
     {
       "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "710BC0E6",
+      "internalID" : "5E1D66A2",
       "localizations" : [
         {
-          "description" : "Unlock trivia questions for HP6",
-          "displayName" : "HP6 Questions",
+          "description" : "",
+          "displayName" : "",
           "locale" : "en_US"
         }
       ],
       "productID" : "hp6",
-      "referenceName" : "HP6",
+      "referenceName" : "HP6 Questions",
       "type" : "NonConsumable"
     },
     {
       "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "F0064F99",
+      "internalID" : "243FF84A",
       "localizations" : [
         {
-          "description" : "Unlock trivia questions for HP7",
-          "displayName" : "HP7 Questions",
+          "description" : "",
+          "displayName" : "",
           "locale" : "en_US"
         }
       ],
       "productID" : "hp7",
-      "referenceName" : "HP7",
+      "referenceName" : "HP7 Questions",
       "type" : "NonConsumable"
     }
   ],

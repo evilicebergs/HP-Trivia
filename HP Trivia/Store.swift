@@ -16,12 +16,12 @@ enum BookStatus {
 
 @MainActor
 class Store: ObservableObject {
-    @Published var books: [BookStatus] = [.active, .inactive, .active, .inactive, .locked, .locked, .locked]
+    @Published var books: [BookStatus] = [.active, .inactive, .active, .locked, .locked, .locked, .locked]
     
     @Published var products: [Product] = []
     @Published var purchasedIds = Set<String>()
     
-    private var productIDs = ["hp5", "hp6", "hp7"]
+    private var productIDs = ["hp4", "hp5", "hp6", "hp7"]
     
     private var updates: Task<Void, Never>? = nil
     

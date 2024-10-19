@@ -23,7 +23,7 @@ struct Settings: View {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(), GridItem()]) {
                         ForEach(0..<7) { i in
-                            if store.books[i] == .active {
+                            if store.books[i] == .active || (store.books[i] == .locked && store.purchasedIds.contains("hp\(i+1)")){
                                     ZStack(alignment: .bottomTrailing) {
                                         Image("hp\(i+1)")
                                             .resizable()
@@ -35,6 +35,9 @@ struct Settings: View {
                                             .foregroundStyle(.green)
                                             .shadow(radius: 1)
                                             .padding(3)
+                                    }
+                                    .task {
+                                        store.books[i] = .active
                                     }
                                     .onTapGesture {
                                         store.books[i] = .inactive
@@ -71,6 +74,16 @@ struct Settings: View {
                                             .shadow(color: .white.opacity(0.75), radius: 3)
                                             .padding(3)
                                     }
+                                    .onTapGesture {
+                                        let productID = "hp\(i + 1)"
+                                            //looking for first element who can fit
+                                        if let product = store.products.first(where: { $0.id == productID }) {
+                                            
+                                            Task {
+                                                await store.purchase(product)
+                                            }
+                                        }
+                                    }
                                 }
                         }
                     }
@@ -83,6 +96,7 @@ struct Settings: View {
                 .doneButton()
             }
         }
+        .foregroundStyle(.black)
     }
 }
 
