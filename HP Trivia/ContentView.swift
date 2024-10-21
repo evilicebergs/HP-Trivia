@@ -10,6 +10,7 @@ import AVKit
 
 struct ContentView: View {
     @EnvironmentObject private var store: Store
+    @EnvironmentObject private var game: Game
     
     @State private var audioPlayer: AVAudioPlayer!
     
@@ -126,6 +127,7 @@ struct ContentView: View {
                                 }
                                 .fullScreenCover(isPresented: $playGame, content: {
                                     Gameplay()
+                                        .environmentObject(game)
                                 })
                                 .transition(.offset(y: geo.size.height/3))
                                 //here y=0 on the button itself
@@ -180,4 +182,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environmentObject(Store())
+        .environmentObject(Game())
 }
