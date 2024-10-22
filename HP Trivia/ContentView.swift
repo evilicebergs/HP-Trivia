@@ -169,6 +169,7 @@ struct ContentView: View {
                                     .multilineTextAlignment(.center)
                                     .padding(.top, 6)
                                     .transition(.opacity)
+                                    .foregroundStyle(.black)
                             }
                         }
                     }
